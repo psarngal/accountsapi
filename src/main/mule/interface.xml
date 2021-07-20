@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
-    <apikit:config name="accounts-api-config" api="resource::7a06c570-b0b2-4b30-98fc-f34c2f60e78a:accounts-api:1.0.2:raml:zip:accounts-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="accounts-api-config" api="resource::7a06c570-b0b2-4b30-98fc-f34c2f60e78a:accounts-api:1.0.4:raml:zip:accounts-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="accounts-api-main">
         <http:listener config-ref="HTTP_Listener_config" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -123,7 +123,22 @@ output application/json
     <flow name="get:\accounts:accounts-api-config">
         <flow-ref doc:name="Flow Reference" doc:id="026069db-d61d-4e94-bfc1-f71f74dadcad" name="GetAccounts" />
     </flow>
-    <flow name="get:\accounts\(ID):accounts-api-config">
-		<flow-ref doc:name="Flow Reference" doc:id="a90f54df-1b82-40bd-aeb0-1487c75404ec" name="GetAccounttByID"/>
+    <flow name="get:\accounts\(accountID):accounts-api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="a90f54df-1b82-40bd-aeb0-1487c75404ec" name="GetAccounttByID" />
+    </flow>
+    <flow name="post:\accounts:application\json:accounts-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "Accounts created"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="put:\accounts:application\json:accounts-api-config">
+        <logger level="INFO" message="put:\accounts:application\json:accounts-api-config" />
     </flow>
 </mule>

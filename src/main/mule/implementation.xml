@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="GetAccounttByID" doc:id="38b5ceb3-981c-4f5b-aa22-32b2d9c20d46" >
 		<db:select doc:name="Select" doc:id="0dfb1e4f-5ba6-4a48-9c6d-fff0e1a3f139" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * FROM flights_customers where accountID = :ID]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{ 'ID' : attributes.uriParams.ID }]]]></db:input-parameters>
+			<db:input-parameters ><![CDATA[#[{ 'ID' : attributes.uriParams.accountID }]]]></db:input-parameters>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="a115c65f-65aa-4dc6-bd6a-4416142aecb7">
 			<ee:message>
